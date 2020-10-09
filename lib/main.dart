@@ -1,3 +1,7 @@
+import 'package:news/countries.dart';
+import 'package:news/pages/home_page.dart';
+import 'package:news/pages/profile.dart';
+import 'package:news/pages/saved.dart';
 import './packages/packages.dart';
 
 void main() {
@@ -19,28 +23,15 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Likes',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Search',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Profile',
-      style: optionStyle,
-    ),
+  int _index = 0;
+  List<Widget> pages = [
+    HomePage(),
+    Profile(),
+    Saved(),
+    Countries()
+    
   ];
-
+PageController controller = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,39 +40,22 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              Text("Browse News",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 30.0)),
-              Container(
-                  height: 40,
-                  width: 52,
-                  child: RaisedButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    elevation: 0,
-                    onPressed: () {},
-                    child: Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
-                    color: Colors.grey[300],
-                  )),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 50),
-            child: Menu(),
-          )
-        ],
-      ),
+      body: PageView.builder(
+        itemCount: 4,
+        controller:controller,
+        onPageChanged: (page){
+              setState(() {
+                _index= page;
+              });
+            },
+        
+         itemBuilder:(context, position) {
+          return Container(
+                child:Center(child: pages[position]),
+              );
+            })
+        
+      ,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(color: Colors.white, boxShadow: [
           BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
@@ -118,12 +92,13 @@ class _HomeState extends State<Home> {
                   text: 'Country',
                 ),
               ],
-              selectedIndex: _selectedIndex,
-              onTabChange: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
+              selectedIndex: _index,
+              onTabChange: (index){
+                  setState(() {
+                    _index =index;
+                  });
+                  controller.jumpToPage(index);
+                },
             ),
           ),
         ),
@@ -131,3 +106,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+

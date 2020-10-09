@@ -31,6 +31,10 @@ dependencies:
   flutter_swiper: ^1.1.6
   google_nav_bar: ^3.0.0
   line_icons: ^0.2.0
+  http: ^0.12.2
+  carousel_slider: ^2.2.1
+  provider: ^4.3.2+2
+ 
 
 dev_dependencies:
   flutter_test:
@@ -48,8 +52,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - asset/mn.PNG
+  # assets:
+  #   - asset/mn.PNG
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
